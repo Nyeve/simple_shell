@@ -1,86 +1,99 @@
 #include "shell.h"
 
-int _strlen(const char *s);
-char *_strcpy(char *dest, const char *src);
-char *_strcat(char *dest, const char *src);
-char *_strncat(char *dest, const char *src, size_t n);
-
 /**
- * _strlen - Returns the length of a string.
- * @s: A pointer to the characters string.
- *
- * Return: The length of the character string.
+ * _strcmp - compare 2 strings
+ * @s1: string to compare
+ * @s2: string to compare
+ * Return: 0 on success, another number in otherwise cases
  */
-int _strlen(const char *s)
+int _strcmp(char *s1, char *s2)
 {
-	int length = 0;
+	int i = 0;
+	int val;
 
-	if (!s)
-		return (length);
-	for (length = 0; s[length]; length++)
-		;
-	return (length);
+	while (s1[i] != '\0' && s2[i] != '\0')
+	{
+		if (s1[i] == s2[i])
+			val = 0;
+		else
+		{
+			val = (s1[i] - '0') - (s2[i] - '0');
+			return (val);
+		}
+		i++;
+	}
+
+	return (val);
 }
-
 /**
- * _strcpy - Copies the string pointed to by src, including the
- *           terminating null byte, to the buffer pointed by des.
- * @dest: Pointer to the destination of copied string.
- * @src: Pointer to the src of the source string.
- *
- * Return: Pointer to dest.
+ * _strcpy - copies the string pointed to by src
+ * @dest: where string will be copy
+ * @src: string to copy
+ * Return: dest string
  */
-char *_strcpy(char *dest, const char *src)
+char *_strcpy(char *dest, char *src)
 {
-	size_t i;
+	int x, j;
 
-	for (i = 0; src[i] != '\0'; i++)
-		dest[i] = src[i];
-	dest[i] = '\0';
-	return (dest);
-}
-
-/**
- * _strcat - Concantenates two strings.
- * @dest: Pointer to destination string.
- * @src: Pointer to source string.
- *
- * Return: Pointer to destination string.
- */
-char *_strcat(char *dest, const char *src)
-{
-	char *destTemp;
-	const char *srcTemp;
-
-	destTemp = dest;
-	srcTemp =  src;
-
-	while (*destTemp != '\0')
-		destTemp++;
-
-	while (*srcTemp != '\0')
-		*destTemp++ = *srcTemp++;
-	*destTemp = '\0';
-	return (dest);
-}
-
-/**
- * _strncat - Concantenates two strings where n number
- *            of bytes are copied from source.
- * @dest: Pointer to destination string.
- * @src: Pointer to source string.
- * @n: n bytes to copy from src.
- *
- * Return: Pointer to destination string.
- */
-char *_strncat(char *dest, const char *src, size_t n)
-{
-	size_t dest_len = _strlen(dest);
-	size_t i;
-
-	for (i = 0; i < n && src[i] != '\0'; i++)
-		dest[dest_len + i] = src[i];
-	dest[dest_len + i] = '\0';
+	for (x = 0; src[x] != '\0'; x++)
+	{
+	}
+	for (j = 0; j < x; j++)
+		dest[j] = src[j];
+	dest[j] = '\0';
 
 	return (dest);
+
+}
+/**
+ * _strcat - concatenatetwo strings
+ * @string: main string
+ * @stradd: string to add to string parameter
+ * Return: a string concatenated on success
+ */
+char *_strcat(char *string, char *stradd)
+{
+	int i = 0, j = 0;
+
+	while (string[i] != '\0')
+		i++;
+	while (stradd[j] != '\0')
+	{
+		string[i] = stradd[j];
+		i++;
+		j++;
+	}
+	string[i] = '\0';
+	return (string);
+}
+/**
+ * sp_string - Split a string with strtok function
+ * @string: string to be splitted
+ * @del: delimitators for the string
+ * Return: a double pointer array with the string splitted
+ */
+char **sp_string(char *string, char *del)
+{
+	char **tokens;
+	/*char string[] = "Hola como";*/
+	char *tok;
+	int i = 0;
+
+	/*Crear array doble con malloc*/
+	tokens = (char **) malloc(sizeof(char *) * 1024);
+	if (tokens == NULL)
+	{
+		/*Print error for malloc*/
+		return (NULL);
+	}
+	tok = strtok(string, del); /*primer token del string*/
+	while (tok != NULL)
+	{
+		/*crear columnas*/
+		tokens[i] = tok;
+		tok = strtok(NULL, del);
+		i++;
+	}
+	tokens[i] = NULL;
+	return (tokens);
 }
